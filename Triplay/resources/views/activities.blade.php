@@ -2,239 +2,231 @@
 
 @section('content')
 
-{{-- ====== STYLE TAMBAHAN ====== --}}
-<style>
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+<section class="pt-32 pb-24 min-h-screen">
+    <div class="max-w-7xl mx-auto px-6">
 
-.fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-}
-
-.glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-</style>
-
-{{-- ====== PAGE WRAPPER ====== --}}
-<div class="min-h-screen bg-neutral-900 py-32">
-
-    {{-- ====== HEADER ====== --}}
-    <div class="max-w-7xl mx-auto px-6 text-center mb-20 fade-in-up">
-        <div class="inline-block mb-6 px-4 py-2 glass rounded-full">
-            <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">
-                Our Adventures
-            </span>
+        {{-- BACK BUTTON --}}
+        <div class="mb-10">
+            <a href="{{ route('home') }}#adventure"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold transition">
+                <span>←</span>
+                <span>Kembali ke Home</span>
+            </a>
         </div>
 
-        <h1 class="text-5xl md:text-6xl font-black text-white mb-6">
-            Pilih Petualangan<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                Healing Terbaikmu
+        {{-- HEADER --}}
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-4">
+                OUR ADVENTURES
             </span>
-        </h1>
 
-        <p class="text-neutral-300 max-w-3xl mx-auto text-lg">
-            Temukan pengalaman alam premium yang menyatukan petualangan, ketenangan,
-            dan proses penyembuhan diri
-        </p>
-    </div>
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-5">
+                Pilih Petualangan
+                <span class="block text-emerald-400">
+                    Healing Terbaikmu
+                </span>
+            </h1>
 
-    {{-- ====== CATEGORY CARDS (DENGAN VIDEO) ====== --}}
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-28">
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Temukan pengalaman alam premium yang menyatukan petualangan, ketenangan,
+                dan proses penyembuhan diri.
+            </p>
+        </div>
 
-        {{-- Hiking Card --}}
-        <a href="{{ route('destinations.index', ['category' => 'hiking']) }}"
-           class="group fade-in-up">
-            <div class="relative glass rounded-3xl overflow-hidden
-                        shadow-xl hover:shadow-emerald-500/30
-                        transition-all duration-300
-                        hover:-translate-y-1 hover:scale-[1.03]">
+        {{-- 3 MAIN CATEGORY CARDS WITH VIDEO --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
 
-                {{-- Glow Effect --}}
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100
-                            bg-gradient-to-br from-emerald-500/10 to-teal-500/10
-                            transition-opacity duration-300"></div>
-
-                {{-- Video Container --}}
+            {{-- HIKING --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
                 <div class="h-64 relative overflow-hidden">
-                    <video class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    <video class="w-full h-full object-cover"
                            autoplay muted loop playsinline preload="metadata">
-                        <source src="{{ asset('videos/video1.mp4') }}#t=45" type="video/mp4">
+                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
                     </video>
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
-                    <div class="absolute top-6 right-6 w-14 h-14 glass rounded-xl
-                                flex items-center justify-center text-2xl">
+                    <div class="absolute top-4 right-4 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
                         🥾
                     </div>
                 </div>
 
-                <div class="p-8 relative">
-                    <h2 class="text-2xl font-black text-white mb-3 group-hover:text-emerald-400 transition">
+                <div class="p-7">
+                    <h2 class="text-2xl font-black text-emerald-400 mb-3">
                         Hiking
                     </h2>
-                    <p class="text-neutral-400 mb-6">
+
+                    <p class="text-neutral-400 leading-relaxed mb-6">
                         Perjalanan santai hingga menengah, cocok untuk relaksasi cepat dan pemula.
                     </p>
 
-                    <div class="flex items-center gap-2 text-emerald-400 font-semibold group-hover:gap-4 transition-all">
-                        <span>Explore</span>
-                        <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </div>
+                    @guest
+                        <a href="{{ route('register') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @else
+                        <a href="{{ route('destinations.category', 'hiking') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @endguest
                 </div>
             </div>
-        </a>
 
-        {{-- Trekking Card --}}
-        <a href="{{ route('destinations.index', ['category' => 'trekking']) }}"
-           class="group fade-in-up" style="animation-delay:.1s">
-            <div class="relative glass rounded-3xl overflow-hidden
-                        shadow-xl hover:shadow-emerald-500/30
-                        transition-all duration-300
-                        hover:-translate-y-1 hover:scale-[1.03]">
-
+            {{-- TREKKING --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
                 <div class="h-64 relative overflow-hidden">
-                    <video class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    <video class="w-full h-full object-cover"
                            autoplay muted loop playsinline preload="metadata">
                         <source src="{{ asset('videos/video2.mp4') }}" type="video/mp4">
                     </video>
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
-                    <div class="absolute top-6 right-6 w-14 h-14 glass rounded-xl flex items-center justify-center text-2xl">
-                        🏔️
+                    <div class="absolute top-4 right-4 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
+                        ⛰️
                     </div>
                 </div>
 
-                <div class="p-8">
-                    <h2 class="text-2xl font-black text-white mb-3 group-hover:text-emerald-400 transition">
+                <div class="p-7">
+                    <h2 class="text-2xl font-black text-emerald-400 mb-3">
                         Trekking
                     </h2>
-                    <p class="text-neutral-400 mb-6">
+
+                    <p class="text-neutral-400 leading-relaxed mb-6">
                         Ekspedisi multi-hari untuk pengalaman healing mendalam dan penuh tantangan.
                     </p>
 
-                    <div class="flex items-center gap-2 text-emerald-400 font-semibold group-hover:gap-4 transition-all">
-                        <span>Explore</span>
-                        <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </div>
+                    @guest
+                        <a href="{{ route('register') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @else
+                        <a href="{{ route('destinations.category', 'trekking') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @endguest
                 </div>
             </div>
-        </a>
 
-        {{-- Camping Card --}}
-        <a href="{{ route('destinations.index', ['category' => 'camping']) }}"
-           class="group fade-in-up" style="animation-delay:.2s">
-            <div class="relative glass rounded-3xl overflow-hidden
-                        shadow-xl hover:shadow-emerald-500/30
-                        transition-all duration-300
-                        hover:-translate-y-1 hover:scale-[1.03]">
-
+            {{-- CAMPING --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
                 <div class="h-64 relative overflow-hidden">
-                    <video class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    <video class="w-full h-full object-cover"
                            autoplay muted loop playsinline preload="metadata">
                         <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
                     </video>
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
-                    <div class="absolute top-6 right-6 w-14 h-14 glass rounded-xl flex items-center justify-center text-2xl">
+                    <div class="absolute top-4 right-4 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
                         ⛺
                     </div>
                 </div>
 
-                <div class="p-8">
-                    <h2 class="text-2xl font-black text-white mb-3 group-hover:text-emerald-400 transition">
+                <div class="p-7">
+                    <h2 class="text-2xl font-black text-emerald-400 mb-3">
                         Camping
                     </h2>
-                    <p class="text-neutral-400 mb-6">
-                        Menginap di alam terbuka untuk ketenangan dan koneksi dengan alam.
+
+                    <p class="text-neutral-400 leading-relaxed mb-6">
+                        Menginap di alam terbuka untuk ketenangan dan koneksi lebih dekat dengan alam.
                     </p>
 
-                    <div class="flex items-center gap-2 text-emerald-400 font-semibold group-hover:gap-4 transition-all">
-                        <span>Explore</span>
-                        <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </div>
+                    @guest
+                        <a href="{{ route('register') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @else
+                        <a href="{{ route('destinations.category', 'camping') }}"
+                           class="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition">
+                            Explore <span>→</span>
+                        </a>
+                    @endguest
                 </div>
             </div>
-        </a>
-    </div>
 
-    {{-- ====== DESTINATION LIST ====== --}}
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($destinations as $destination)
-            <div class="group glass rounded-3xl overflow-hidden
-                        shadow-xl hover:shadow-emerald-500/30
-                        transition-all duration-300
-                        hover:-translate-y-1 hover:scale-[1.03] fade-in-up">
-
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{{ asset('storage/'.$destination->image) }}"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-
-                    <span class="absolute top-4 right-4 px-4 py-2 text-xs font-bold uppercase
-                                 rounded-xl bg-emerald-500/20 text-emerald-400
-                                 border border-emerald-500/30 backdrop-blur">
-                        {{ $destination->category }}
-                    </span>
-                </div>
-
-                <div class="p-6">
-                    <h3 class="text-xl font-black text-white mb-2">
-                        {{ $destination->name }}
-                    </h3>
-
-                    <p class="text-neutral-400 text-sm mb-4">
-                        {{ Str::limit(strip_tags($destination->description), 90) }}
-                    </p>
-
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="text-white font-black text-xl">
-                            Rp {{ number_format($destination->price,0,',','.') }}
-                        </div>
-                        <span class="text-neutral-400 text-xs">/ pax</span>
-                    </div>
-
-                    <a href="{{ route('destinations.show',$destination->id) }}"
-                       class="block w-full py-3 text-center rounded-xl
-                              bg-emerald-600 hover:bg-emerald-500
-                              text-white font-bold
-                              transition-all duration-300
-                              shadow-lg hover:shadow-emerald-500/40
-                              transform hover:scale-105">
-                        Liat Detail
-                    </a>
-                </div>
-            </div>
-            @endforeach
         </div>
+
+        {{-- FEATURED DESTINATIONS --}}
+        <div class="mb-10">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-3">
+                Rekomendasi Destinasi
+            </h2>
+
+            <p class="text-neutral-400">
+                Perwakilan destinasi terbaru dari setiap kategori petualangan.
+            </p>
+        </div>
+
+        @if(isset($featuredDestinations) && $featuredDestinations->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($featuredDestinations as $destination)
+                    <div class="soft-card rounded-3xl overflow-hidden">
+                        <div class="h-64 relative">
+                            @if(!empty($destination->image))
+                                <img src="{{ asset('storage/' . $destination->image) }}"
+                                     alt="{{ $destination->title }}"
+                                     class="w-full h-full object-cover"
+                                     onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+
+                                <div class="hidden w-full h-full items-center justify-center bg-black/20 text-neutral-400">
+                                    Gambar tidak ditemukan
+                                </div>
+                            @else
+                                <div class="w-full h-full flex items-center justify-center bg-black/20 text-neutral-400">
+                                    Gambar tidak tersedia
+                                </div>
+                            @endif
+
+                            <div class="absolute top-4 right-4">
+                                <span class="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/20 text-emerald-300 text-sm font-bold uppercase">
+                                    {{ $destination->category }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <h3 class="text-2xl font-black text-white mb-2">
+                                {{ $destination->title }}
+                            </h3>
+
+                            <p class="text-neutral-400 mb-4 line-clamp-2">
+                                {{ $destination->description }}
+                            </p>
+
+                            <div class="flex items-end justify-between mb-6">
+                                <div class="text-2xl font-black text-white">
+                                    Rp {{ number_format($destination->price, 0, ',', '.') }}
+                                </div>
+                                <div class="text-neutral-400 text-sm">/ pax</div>
+                            </div>
+
+                            <a href="{{ route('destinations.show', $destination->id) }}"
+                               class="block w-full text-center rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 transition">
+                                Lihat Detail
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="soft-card rounded-3xl p-10 text-center">
+                <h3 class="text-2xl font-black text-white mb-3">
+                    Belum Ada Destinasi
+                </h3>
+
+                <p class="text-neutral-400">
+                    Silakan tambahkan destinasi melalui dashboard admin.
+                </p>
+            </div>
+        @endif
+
     </div>
-</div>
+</section>
+
 @endsection

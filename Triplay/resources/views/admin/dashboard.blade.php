@@ -1,132 +1,151 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="min-h-screen bg-neutral-900 px-6 py-10 text-white">
+<div class="p-6 space-y-8">
 
-    <!-- HEADER -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
-        <div>
-            <h2 class="text-5xl font-black mb-2">
-                Overview
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                    Dashboard
-                </span>
+    {{-- HEADER --}}
+    <div class="bg-neutral-900 border border-white/10 rounded-3xl p-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <p class="text-emerald-400 text-sm font-bold uppercase tracking-wider mb-2">
+                    Staff Panel
+                </p>
+
+                <h1 class="text-4xl font-black text-white">
+                    Dashboard <span class="text-emerald-400">Admin Staff</span>
+                </h1>
+
+                <p class="text-gray-400 mt-2">
+                    Panel operasional untuk mengelola destinasi, layanan, dan data pesanan.
+                </p>
+            </div>
+
+            <div class="w-16 h-16 rounded-2xl bg-emerald-600 flex items-center justify-center text-white text-2xl font-black">
+                🧭
+            </div>
+        </div>
+    </div>
+
+    {{-- SUMMARY CARDS --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="rounded-2xl bg-neutral-900 border border-white/10 p-6">
+            <p class="text-gray-400 text-sm font-semibold uppercase">Total Destinasi</p>
+            <h2 class="text-4xl font-black text-white mt-3">
+                {{ $totalDestinations }}
             </h2>
-            <p class="text-neutral-400">
-                Kelola destinasi wisata Triplay Healing
+        </div>
+
+        <div class="rounded-2xl bg-neutral-900 border border-white/10 p-6">
+            <p class="text-gray-400 text-sm font-semibold uppercase">Total User</p>
+            <h2 class="text-4xl font-black text-white mt-3">
+                {{ $totalUsers }}
+            </h2>
+        </div>
+
+        <div class="rounded-2xl bg-neutral-900 border border-white/10 p-6">
+            <p class="text-gray-400 text-sm font-semibold uppercase">Tugas Operasional</p>
+            <h2 class="text-4xl font-black text-emerald-400 mt-3">
+                Aktif
+            </h2>
+            <p class="text-xs text-gray-500 mt-2">
+                Admin staff tidak memiliki akses laporan keuangan owner.
             </p>
         </div>
 
-        <div class="mt-6 md:mt-0 w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <i class="fas fa-mountain text-white text-2xl"></i>
-        </div>
     </div>
 
-    <!-- STAT CARDS -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+    {{-- QUICK ACTION --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- TOTAL DESTINATIONS -->
-        <div class="bg-neutral-800/60 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-xl hover:bg-neutral-800 transition">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-map-marked-alt text-emerald-400 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-neutral-400 uppercase font-semibold">Total Paket</p>
-                    <h3 class="text-4xl font-black text-white">{{ $totalDestinations }}</h3>
-                </div>
-            </div>
-        </div>
+        <a href="{{ route('admin.destinations.create') }}"
+           class="rounded-2xl bg-emerald-600 hover:bg-emerald-500 p-6 transition">
+            <h3 class="text-xl font-black text-white mb-2">
+                Tambah Destinasi
+            </h3>
+            <p class="text-emerald-50 text-sm">
+                Tambahkan paket hiking, trekking, atau camping baru.
+            </p>
+        </a>
 
-        <!-- TOTAL USERS -->
-        <div class="bg-neutral-800/60 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-xl hover:bg-neutral-800 transition">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-teal-500/20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-users text-teal-400 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-neutral-400 uppercase font-semibold">Total Users</p>
-                    <h3 class="text-4xl font-black text-white">{{ $totalUsers }}</h3>
-                </div>
-            </div>
-        </div>
+        <a href="{{ route('admin.destinations') }}"
+           class="rounded-2xl bg-neutral-900 border border-white/10 hover:border-emerald-400/40 p-6 transition">
+            <h3 class="text-xl font-black text-white mb-2">
+                Kelola Destinasi
+            </h3>
+            <p class="text-gray-400 text-sm">
+                Edit, hapus, dan perbarui informasi destinasi.
+            </p>
+        </a>
+
+        <a href="{{ route('home') }}"
+           class="rounded-2xl bg-neutral-900 border border-white/10 hover:border-emerald-400/40 p-6 transition">
+            <h3 class="text-xl font-black text-white mb-2">
+                Lihat Website
+            </h3>
+            <p class="text-gray-400 text-sm">
+                Buka tampilan website dari sisi pengguna.
+            </p>
+        </a>
 
     </div>
 
-    <!-- TABLE -->
-    <div class="bg-neutral-800/60 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl overflow-hidden">
-
-        <!-- TABLE HEADER -->
-        <div class="p-8 border-b border-white/5 flex items-center justify-between">
-            <div>
-                <h3 class="text-2xl font-bold text-white mb-1">Paket Terbaru</h3>
-                <p class="text-neutral-400 text-sm">Destinasi yang baru ditambahkan</p>
-            </div>
-
-            <span class="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-xs font-semibold">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                Live Data
-            </span>
+    {{-- TABLE --}}
+    <div class="rounded-2xl bg-neutral-900 border border-white/10 overflow-hidden">
+        <div class="p-6 border-b border-white/10">
+            <h3 class="text-xl font-black text-white">
+                Paket Terbaru
+            </h3>
+            <p class="text-gray-400 text-sm">
+                Destinasi yang baru ditambahkan.
+            </p>
         </div>
 
-        <!-- TABLE CONTENT -->
         <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-neutral-900 text-neutral-400 text-xs uppercase">
+            <table class="w-full text-sm">
+                <thead class="bg-black/30 text-gray-400">
                     <tr>
-                        <th class="p-5 text-left">Nama Paket</th>
-                        <th class="p-5 text-left">Kategori</th>
-                        <th class="p-5 text-left">Harga</th>
-                        <th class="p-5 text-center">Aksi</th>
+                        <th class="px-6 py-4 text-left">Nama Paket</th>
+                        <th class="px-6 py-4 text-left">Kategori</th>
+                        <th class="px-6 py-4 text-left">Harga</th>
+                        <th class="px-6 py-4 text-left">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-white/5">
-                    @forelse($recentDestinations as $item)
-                    <tr class="hover:bg-white/5 transition">
-                        <td class="p-5 font-semibold text-white">
-                            {{ $item->title }}
-                        </td>
 
-                        <td class="p-5">
-                            <span class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg
-                                bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                {{ ucfirst($item->category) }}
-                            </span>
-                        </td>
+                <tbody class="divide-y divide-white/10">
+                    @forelse($recentDestinations as $destination)
+                        <tr class="text-gray-300">
+                            <td class="px-6 py-4 font-bold text-white">
+                                {{ $destination->title }}
+                            </td>
 
-                        <td class="p-5 font-bold text-white">
-                            Rp {{ number_format($item->price, 0, ',', '.') }}
-                        </td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold">
+                                    {{ $destination->category }}
+                                </span>
+                            </td>
 
-                        <td class="p-5 text-center">
-                            <a href="{{ route('admin.destinations.edit', $item->id) }}"
-                               class="inline-flex items-center gap-2 px-6 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-semibold transition">
-                                <i class="fas fa-edit"></i>
-                                Edit
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4">
-                            <div class="py-16 text-center">
-                                <div class="w-24 h-24 mx-auto bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
-                                    <i class="fas fa-mountain text-emerald-400 text-3xl"></i>
-                                </div>
-                                <h4 class="text-2xl font-bold text-white mb-2">Belum Ada Destinasi</h4>
-                                <p class="text-neutral-400 mb-6">Tambahkan destinasi pertama Anda</p>
-                                <a href="{{ route('admin.destinations.create') }}"
-                                   class="inline-flex px-8 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-semibold transition">
-                                    Tambah Destinasi
+                            <td class="px-6 py-4 font-bold">
+                                Rp {{ number_format($destination->price, 0, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.destinations.edit', $destination->id) }}"
+                                   class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
+                                    Edit
                                 </a>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-10 text-center text-gray-500">
+                                Belum ada destinasi.
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
     </div>
 
 </div>

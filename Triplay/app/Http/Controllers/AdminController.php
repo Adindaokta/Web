@@ -2,198 +2,248 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Destination;
 use App\Models\User;
+use App\Models\Destination;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash; // <--- PENTING: Tambahkan ini
 
 class AdminController extends Controller
 {
-    // =========================================================================
-    // 1. DASHBOARD
-    // =========================================================================
-    public function index()
-    {
-        $totalDestinations = Destination::count();
-        $totalUsers = User::count();
-        $recentDestinations = Destination::latest()->take(5)->get();
+public function index()
+{
+    $user = Auth::user();
 
-        return view('admin.dashboard', compact('totalDestinations', 'totalUsers', 'recentDestinations'));
+    $totalUsers = User::count();
+    $totalDestinations = Destination::count();
+
+    $recentDestinations = Destination::latest()
+        ->take(5)
+        ->get();
+
+    $recentUsers = User::latest()
+        ->take(5)
+        ->get();
+
+    if ($user && $user->role === 'superadmin') {
+        return view('admin.dashboard-superadmin', compact(
+            'totalUsers',
+            'totalDestinations',
+            'recentDestinations',
+            'recentUsers'
+        ));
     }
 
-    // =========================================================================
-    // 2. MANAJEMEN DESTINASI (CRUD)
-    // =========================================================================
+    return view('admin.dashboard', compact(
+        'totalUsers',
+        'totalDestinations',
+        'recentDestinations',
+        'recentUsers'
+    ));
+}
 
-    // Tampilkan List
+    // ===============================
+    // DESTINATION MANAGEMENT
+    // ===============================
+
     public function destinations()
     {
         $destinations = Destination::latest()->paginate(10);
+
         return view('admin.destinations.index', compact('destinations'));
     }
 
-    // Halaman Create
     public function createDestination()
     {
         return view('admin.destinations.create');
     }
 
-    // Proses Simpan (Store)
     public function storeDestination(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255|unique:destinations,title', // Validasi nama unik
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:100',
+        'price' => 'required|numeric|min:0',
+        'description' => 'nullable|string',
+        'location' => 'nullable|string|max:255',
+        'meeting_point' => 'nullable|string|max:255',
+        'estimated_duration' => 'nullable|string|max:100',
+        'altitude_mdpl' => 'nullable|numeric|min:0',
+        'difficulty_level' => 'nullable|string|max:100',
+        'facilities' => 'nullable|string',
+        'safety_notes' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        // Upload gambar
-        $imagePath = $request->file('image')->store('destinations', 'public');
+    $validated['slug'] = Str::slug($validated['title']);
 
-        Destination::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'category' => $request->category,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image' => $imagePath,
-        ]);
-
-        return redirect()->route('admin.destinations')->with('success', 'Destinasi berhasil ditambahkan!');
+    if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')->store('destinations', 'public');
     }
 
-    // Halaman Edit
+    Destination::create($validated);
+
+    return redirect()->route('admin.destinations')
+        ->with('success', 'Destinasi berhasil ditambahkan.');
+}
+
     public function editDestination($id)
     {
         $destination = Destination::findOrFail($id);
+
         return view('admin.destinations.edit', compact('destination'));
     }
 
-    // Proses Update
-    public function updateDestination(Request $request, $id)
-    {
-        $destination = Destination::findOrFail($id);
+   public function updateDestination(Request $request, $id)
+{
+    $destination = Destination::findOrFail($id);
 
-        $request->validate([
-            // Validasi nama unik, tapi abaikan ID destinasi ini sendiri
-            'title' => 'required|string|max:255|unique:destinations,title,' . $id,
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:100',
+        'price' => 'required|numeric|min:0',
+        'description' => 'nullable|string',
+        'location' => 'nullable|string|max:255',
+        'meeting_point' => 'nullable|string|max:255',
+        'estimated_duration' => 'nullable|string|max:100',
+        'altitude_mdpl' => 'nullable|numeric|min:0',
+        'difficulty_level' => 'nullable|string|max:100',
+        'facilities' => 'nullable|string',
+        'safety_notes'=> 'nullable|string',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        $data = [
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'category' => $request->category,
-            'price' => $request->price,
-            'description' => $request->description,
-        ];
+    $validated['slug'] = Str::slug($validated['title']);
 
-        // Cek jika ada upload gambar baru
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama
-            if ($destination->image) {
-                Storage::disk('public')->delete($destination->image);
-            }
-            // Upload baru
-            $data['image'] = $request->file('image')->store('destinations', 'public');
+    if ($request->hasFile('image')) {
+        if ($destination->image && Storage::disk('public')->exists($destination->image)) {
+            Storage::disk('public')->delete($destination->image);
         }
 
-        $destination->update($data);
-
-        return redirect()->route('admin.destinations')->with('success', 'Destinasi berhasil diperbarui!');
+        $validated['image'] = $request->file('image')->store('destinations', 'public');
     }
 
-    // Proses Hapus
+    $destination->update($validated);
+
+    return redirect()->route('admin.destinations')
+        ->with('success', 'Destinasi berhasil diperbarui.');
+}
+
     public function destroyDestination($id)
     {
         $destination = Destination::findOrFail($id);
 
-        // Hapus file gambar dari storage
-        if ($destination->image) {
+        if ($destination->image && Storage::disk('public')->exists($destination->image)) {
             Storage::disk('public')->delete($destination->image);
         }
 
         $destination->delete();
 
-        return redirect()->back()->with('success', 'Destinasi dihapus.');
+        return redirect()
+            ->route('admin.destinations')
+            ->with('success', 'Destinasi berhasil dihapus.');
     }
 
-    // =========================================================================
-    // 3. MANAJEMEN USER (CRUD)
-    // =========================================================================
+    // ===============================
+    // USER MANAGEMENT
+    // ===============================
 
-    // Tampilkan List
     public function users()
     {
         $users = User::latest()->paginate(10);
+
         return view('admin.users.index', compact('users'));
     }
 
-    // Proses Simpan User Baru
     public function storeUser(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validated = $request->validate([
             'username' => 'required|string|max:255|unique:users,username',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'role' => 'required'
+            'role' => 'required|in:superadmin,admin,user',
+            'password' => 'required|string|min:6',
         ]);
 
         User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password), // Menggunakan Facade Hash
-            'role' => $request->role,
+            'username' => $validated['username'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('admin.users')->with('success', 'User berhasil ditambahkan!');
+        return redirect()
+            ->route('admin.users')
+            ->with('success', 'User berhasil ditambahkan.');
     }
 
-    // Proses Update User
     public function updateUser(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
-            'email' => 'required|email|max:255|unique:users,email,' . $id,
-            'role' => 'required'
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:superadmin,admin,user',
+            'password' => 'nullable|string|min:6',
         ]);
 
         $data = [
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'role' => $request->role,
+            'username' => $validated['username'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
         ];
 
-        // Hanya update password jika field diisi
-        if ($request->filled('password')) {
-            $request->validate(['password' => 'min:6|confirmed']);
-            $data['password'] = Hash::make($request->password);
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
         }
 
         $user->update($data);
 
-        return redirect()->route('admin.users')->with('success', 'User berhasil diperbarui!');
+        return redirect()
+            ->route('admin.users')
+            ->with('success', 'User berhasil diperbarui.');
     }
 
-    // Proses Hapus User
     public function destroyUser($id)
     {
         $user = User::findOrFail($id);
+
+        if (Auth::id() === $user->id) {
+            return redirect()
+                ->route('admin.users')
+                ->with('error', 'Akun yang sedang login tidak bisa dihapus.');
+        }
+
+        if ($user->role === 'superadmin') {
+            return redirect()
+                ->route('admin.users')
+                ->with('error', 'Akun superadmin tidak bisa dihapus melalui halaman ini.');
+        }
+
         $user->delete();
 
-        return redirect()->back()->with('success', 'User berhasil dihapus.');
+        return redirect()
+            ->route('admin.users')
+            ->with('success', 'User berhasil dihapus.');
     }
+    public function finance()
+{
+    return view('admin.finance.index');
+}
+
+public function expenses()
+{
+    return view('admin.expenses.index');
+}
+
+public function reports()
+{
+    return view('admin.reports.index');
+}
 }

@@ -38,41 +38,72 @@
         </div>
 
         <!-- MENU -->
-        <nav class="px-4 py-6 space-y-2 text-sm">
+<nav class="px-4 py-6 space-y-2 text-sm">
 
-            <a href="{{ route('admin.dashboard') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all
-               {{ request()->routeIs('admin.dashboard')
-               ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
-               : 'text-gray-400 hover:bg-slate-800 hover:text-emerald-400' }}">
-                <i class="fas fa-house"></i>
-                Dashboard
+    <a href="{{ route('admin.dashboard') }}"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+       {{ request()->routeIs('admin.dashboard') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+        <span>🏠</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="{{ route('admin.destinations') }}"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+       {{ request()->routeIs('admin.destinations*') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+        <span>⛰️</span>
+        <span>Destinasi</span>
+    </a>
+
+    <a href="{{ route('admin.services.index') }}"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+       {{ request()->routeIs('admin.services*') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+        <span>🧰</span>
+        <span>Layanan</span>
+    </a>
+
+    <a href="{{ route('admin.users') }}"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+       {{ request()->routeIs('admin.users*') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+        <span>👥</span>
+        <span>User</span>
+    </a>
+
+    @if(auth()->user()->role === 'superadmin')
+        <div class="pt-5 mt-5 border-t border-white/10">
+            <p class="px-4 mb-3 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                Owner Finance
+            </p>
+
+            <a href="{{ route('admin.finance') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->routeIs('admin.finance') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                <span>💰</span>
+                <span>Pendapatan</span>
             </a>
 
-            <a href="{{ route('admin.destinations') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all
-               {{ request()->routeIs('admin.destinations*')
-               ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
-               : 'text-gray-400 hover:bg-slate-800 hover:text-emerald-400' }}">
-                <i class="fas fa-mountain"></i>
-                Destinasi
+            <a href="{{ route('admin.expenses') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->routeIs('admin.expenses') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                <span>📉</span>
+                <span>Pengeluaran</span>
             </a>
 
-            <a href="{{ route('admin.users') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all
-               {{ request()->routeIs('admin.users*')
-               ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
-               : 'text-gray-400 hover:bg-slate-800 hover:text-emerald-400' }}">
-                <i class="fas fa-users"></i>
-                User
+            <a href="{{ route('admin.reports') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->routeIs('admin.reports') ? 'bg-emerald-600 text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                <span>📊</span>
+                <span>Laporan Bulanan</span>
             </a>
+        </div>
+    @endif
 
-            <a href="/" target="_blank"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-teal-400 transition">
-                <i class="fas fa-arrow-up-right-from-square"></i>
-                Lihat Website
-            </a>
-        </nav>
+    <a href="{{ route('home') }}"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition">
+        <span>↗️</span>
+        <span>Lihat Website</span>
+    </a>
+
+</nav>
 
         <!-- LOGOUT -->
         <div class="absolute bottom-0 w-full p-4 border-t border-emerald-900/40">

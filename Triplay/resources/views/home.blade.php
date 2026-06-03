@@ -2,274 +2,508 @@
 
 @section('content')
 
+{{-- HERO --}}
+<section id="home" class="scroll-mt-24 min-h-screen flex items-center pt-28 pb-20">
+    <div class="max-w-7xl mx-auto px-6 w-full">
+        <div class="max-w-3xl">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-6">
+                Nature Healing Experience
+            </span>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Image with Parallax -->
-        <div class="absolute inset-0 scale-105 parallax-float">
-            <img src="{{ asset('images/hero-bg.jpg') }}" alt="Mountain landscape" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/40 to-neutral-900/80"></div>
-        </div>
-
-        <!-- Floating Elements -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"></div>
-        </div>
-
-        <!-- Content -->
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
-            <div class="inline-block mb-6 px-4 py-2 glass-morphism rounded-full">
-                <span class="text-emerald-400 text-xs sm:text-sm font-semibold tracking-wider uppercase break-words">Premium Nature Experience</span>
-            </div>
-
-            <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black text-white mb-6 leading-tight break-words text-shadow-xl">
-                Escape to<br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
-                    Nature's Embrace
-                </span>
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+                Temukan
+                <span class="text-emerald-400">Petualangan Healing</span>
+                Favoritmu
             </h1>
 
-            <p class="text-base sm:text-lg md:text-2xl text-neutral-300 max-w-3xl mx-auto mb-12 leading-relaxed break-words">
-                Reconnect with yourself through curated mountain adventures and immersive healing experiences
+            <p class="text-neutral-300 text-lg leading-relaxed mb-8 max-w-2xl">
+                Jelajahi destinasi hiking, trekking, dan camping dengan pengalaman yang lebih rapi,
+                nyaman, dan mudah dipesan langsung dari website.
             </p>
 
-            <!-- CTA Buttons -->
-            <div class="flex flex-wrap gap-4 justify-center items-center mb-16 px-4">
-                <a href="#activities" class="w-full md:w-auto group px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-xl hover:shadow-emerald-500/50">
-                    <span class="flex items-center gap-2">
-                        Explore Adventures
-                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                        </svg>
-                    </span>
-                </a>
-                <a href="#about" class="w-full md:w-auto px-8 py-4 glass-morphism hover:bg-white/10 text-white font-semibold rounded-lg transition-all">
-                    Learn More
-                </a>
-            </div>
+            <div class="flex flex-wrap gap-4">
+                @guest
+                    <a href="{{ route('register') }}"
+                       class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg hover:shadow-emerald-500/30">
+                        Jelajahi Paket
+                    </a>
+                @else
+                    <a href="{{ route('explore') }}"
+                       class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg hover:shadow-emerald-500/30">
+                        Jelajahi Paket
+                    </a>
+                @endguest
 
-            <!-- Categories -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
-                <a href="{{ route('destinations.index', ['category' => 'hiking']) }}" class="group">
-                    <div class="glass-morphism px-6 py-4 rounded-xl hover:bg-white/10 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:bg-emerald-500/30 transition">
-                                <i class="fas fa-hiking text-emerald-400 text-xl"></i>
-                            </div>
-                            <div class="text-left">
-                                <div class="text-white font-semibold">Hiking</div>
-                                <div class="text-neutral-400 text-xs">Trail Adventures</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="{{ route('destinations.index', ['category' => 'trekking']) }}" class="group">
-                    <div class="glass-morphism px-6 py-4 rounded-xl hover:bg-white/10 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition">
-                                <i class="fas fa-mountain text-blue-400 text-xl"></i>
-                            </div>
-                            <div class="text-left">
-                                <div class="text-white font-semibold">Trekking</div>
-                                <div class="text-neutral-400 text-xs">Peak Expeditions</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="{{ route('destinations.index', ['category' => 'camping']) }}" class="group">
-                    <div class="glass-morphism px-6 py-4 rounded-xl hover:bg-white/10 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center group-hover:bg-amber-500/30 transition">
-                                <i class="fas fa-campground text-amber-400 text-xl"></i>
-                            </div>
-                            <div class="text-left">
-                                <div class="text-white font-semibold">Camping</div>
-                                <div class="text-neutral-400 text-xs">Wilderness Stays</div>
-                            </div>
-                        </div>
-                    </div>
+                <a href="#contact"
+                   class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white font-bold transition">
+                    Hubungi Kami
                 </a>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-2">
-                <div class="w-1 h-2 bg-white/50 rounded-full"></div>
-            </div>
-        </div>
-    </section>
+{{-- ADVENTURE CATEGORIES --}}
+{{-- ADVENTURE --}}
+<section id="adventure" class="scroll-mt-24 py-24 section-divider">
+    <div class="max-w-7xl mx-auto px-6">
 
-    <!-- Activities Section with Video -->
-    <section id="activities" class="relative py-32 overflow-hidden">
-        <!-- Video Background -->
-        <div class="video-container absolute inset-0">
-            <div class="video-item absolute inset-0 opacity-100 transition-opacity duration-1000">
-                <video class="w-full h-full object-cover"autoplay muted loop playsinline preload="metadata">
-                    <source src="{{ asset('videos/video1.mp4') }}#t=45" type="video/mp4">
-                </video>
-            </div>
-            <div class="video-item absolute inset-0 opacity-0 transition-opacity duration-1000">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
-                    <source src="{{ asset('videos/video2.mp4') }}" type="video/mp4">
-                </video>
-            </div>
-            <div class="video-item absolute inset-0 opacity-0 transition-opacity duration-1000">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
-                    <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
-                </video>
-            </div>
-        </div>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-4">
+                OUR ADVENTURES
+            </span>
 
-        <!-- Content -->
-        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
-            <div class="inline-block mb-6 px-4 py-2 glass-morphism rounded-full">
-                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">Our Activities</span>
-            </div>
-
-            <h2 class="text-5xl md:text-7xl font-black text-white mb-6 text-shadow-xl">
-                Mountain & Land<br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Adventures</span>
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
+                Pilih Jenis Petualangan
+                <span class="block text-emerald-400">Terbaikmu</span>
             </h2>
 
-            <p class="text-xl text-neutral-200 max-w-2xl mx-auto mb-12">
-                Discover authentic adventures nestled between nature and mountains with our premium healing services
+            <p class="text-neutral-400 text-lg">
+                Pilih kategori perjalanan yang sesuai, lalu jelajahi paket lengkapnya di halaman activities.
             </p>
+        </div>
 
-            <!-- Video Controls -->
-            <div class="flex justify-center gap-2 mb-12">
-                <button onclick="changeVideo(0)" class="video-indicator w-12 h-1 bg-white rounded-full transition-all"></button>
-                <button onclick="changeVideo(1)" class="video-indicator w-12 h-1 bg-white/30 hover:bg-white/50 rounded-full transition-all"></button>
-                <button onclick="changeVideo(2)" class="video-indicator w-12 h-1 bg-white/30 hover:bg-white/50 rounded-full transition-all"></button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+
+            {{-- Hiking --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
+                <div class="h-72 relative overflow-hidden">
+                    <video class="w-full h-full object-cover"
+                           autoplay muted loop playsinline preload="metadata">
+                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
+                    </video>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+                    <div class="absolute top-5 right-5 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
+                        🥾
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-3xl font-black text-white">Hiking</h3>
+                    </div>
+                </div>
             </div>
 
-            @guest
-                <a href="{{ route('login') }}" class="inline-block px-8 py-4 bg-white hover:bg-neutral-100 text-neutral-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-2xl">
-                    View All Activities
-                </a>
-            @else
-                <a href="{{ route('activities') }}" class="inline-block px-8 py-4 bg-white hover:bg-neutral-100 text-neutral-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-2xl">
-                    View All Activities
-                </a>
-            @endauth
-        </div>
-    </section>
+            {{-- Trekking --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
+                <div class="h-72 relative overflow-hidden">
+                    <video class="w-full h-full object-cover"
+                           autoplay muted loop playsinline preload="metadata">
+                        <source src="{{ asset('videos/video2.mp4') }}" type="video/mp4">
+                    </video>
 
-    <!-- Features Section -->
-    <section class="py-32 bg-neutral-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <div class="inline-block mb-6 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                    <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">Why Choose Us</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+                    <div class="absolute top-5 right-5 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
+                        ⛰️
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-3xl font-black text-white">Trekking</h3>
+                    </div>
                 </div>
-                <h2 class="text-5xl md:text-6xl font-black text-white mb-6">
-                    Experience Excellence
+            </div>
+
+            {{-- Camping --}}
+            <div class="soft-card rounded-3xl overflow-hidden transition duration-300 hover:-translate-y-1">
+                <div class="h-72 relative overflow-hidden">
+                    <video class="w-full h-full object-cover"
+                           autoplay muted loop playsinline preload="metadata">
+                        <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+                    </video>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+                    <div class="absolute top-5 right-5 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-2xl">
+                        ⛺
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-3xl font-black text-white">Camping</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center">
+            <a href="{{ route('explore') }}"
+               class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg hover:shadow-emerald-500/30">
+                Explore Activities
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{{-- SERVICES --}}
+<section id="services" class="scroll-mt-24 py-24 section-divider">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-4">
+                SERVICES
+            </span>
+
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
+                Layanan Tambahan untuk
+                <span class="text-emerald-400">Trip Lebih Nyaman</span>
+            </h2>
+
+            <p class="text-neutral-400 text-lg">
+                Tambahkan layanan pendukung seperti ojek, perlengkapan, guide, dan dokumentasi sesuai kebutuhan perjalananmu.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="soft-card rounded-3xl p-6 group hover:-translate-y-1 transition">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-6">
+                    🛵
+                </div>
+                <h3 class="text-xl font-black text-white mb-3">Ojek</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Transport lokal untuk membantu perjalanan menuju titik keberangkatan atau meeting point.
+                </p>
+            </div>
+
+            <div class="soft-card rounded-3xl p-6 group hover:-translate-y-1 transition">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-6">
+                    🎒
+                </div>
+                <h3 class="text-xl font-black text-white mb-3">Sewa Perlengkapan</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Perlengkapan trip seperti carrier, matras, sleeping bag, jas hujan, dan kebutuhan outdoor.
+                </p>
+            </div>
+
+            <div class="soft-card rounded-3xl p-6 group hover:-translate-y-1 transition">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-6">
+                    🧭
+                </div>
+                <h3 class="text-xl font-black text-white mb-3">Guide</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Pemandu perjalanan untuk membantu rute, arahan teknis, dan keselamatan selama trip.
+                </p>
+            </div>
+
+            <div class="soft-card rounded-3xl p-6 group hover:-translate-y-1 transition">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-6">
+                    📷
+                </div>
+                <h3 class="text-xl font-black text-white mb-3">Dokumentasi</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Layanan foto atau video agar momen perjalanan tetap tersimpan dengan rapi.
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{{ route('services.index') }}"
+               class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg hover:shadow-emerald-500/30">
+                Lihat Semua Layanan
+            </a>
+        </div>
+    </div>
+</section>
+
+{{-- ABOUT --}}
+<section id="about" class="scroll-mt-24 py-24 section-divider">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-4">
+                    ABOUT TRIPLAY
+                </span>
+
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+                    Platform untuk Menikmati
+                    <span class="text-emerald-400">Healing Trip</span>
+                    yang Lebih Praktis
                 </h2>
+
+                <p class="text-neutral-400 text-lg leading-relaxed mb-6">
+                    Triplay hadir untuk membantu pengguna menemukan destinasi, melihat detail paket,
+                    dan melakukan pemesanan secara lebih rapi tanpa harus berpindah-pindah platform.
+                </p>
+
+                <p class="text-neutral-400 text-lg leading-relaxed">
+                    Ke depannya website ini akan mendukung pemesanan terintegrasi, layanan tambahan,
+                    riwayat transaksi, saldo pengguna, hingga dashboard admin untuk monitoring bisnis.
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="group p-8 bg-neutral-800/50 hover:bg-neutral-800 border border-white/5 rounded-2xl transition-all">
-                    <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+            <div class="soft-card rounded-3xl p-8">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="rounded-2xl bg-white/5 p-6">
+                        <div class="text-3xl font-black text-emerald-400 mb-2">3+</div>
+                        <div class="text-neutral-400">Kategori Petualangan</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Expert Guidance</h3>
-                    <p class="text-neutral-400 leading-relaxed">Professional guides with years of experience ensuring your safety and enjoyment throughout the journey</p>
-                </div>
 
-                <div class="group p-8 bg-neutral-800/50 hover:bg-neutral-800 border border-white/5 rounded-2xl transition-all">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-map-marked-alt text-white text-2xl"></i>
+                    <div class="rounded-2xl bg-white/5 p-6">
+                        <div class="text-3xl font-black text-emerald-400 mb-2">24/7</div>
+                        <div class="text-neutral-400">Akses Informasi</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Premium Locations</h3>
-                    <p class="text-neutral-400 leading-relaxed">Carefully curated destinations offering breathtaking views and unforgettable experiences</p>
-                </div>
 
-                <div class="group p-8 bg-neutral-800/50 hover:bg-neutral-800 border border-white/5 rounded-2xl transition-all">
-                    <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-heart text-white text-2xl"></i>
+                    <div class="rounded-2xl bg-white/5 p-6">
+                        <div class="text-3xl font-black text-emerald-400 mb-2">Easy</div>
+                        <div class="text-neutral-400">Booking Flow</div>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Healing Focus</h3>
-                    <p class="text-neutral-400 leading-relaxed">Designed for mental wellness and spiritual rejuvenation through nature immersion</p>
+
+                    <div class="rounded-2xl bg-white/5 p-6">
+                        <div class="text-3xl font-black text-emerald-400 mb-2">Future</div>
+                        <div class="text-neutral-400">Payment & Wallet</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- About Section -->
-    <section id="about" class="py-32 bg-gradient-to-b from-neutral-900 to-neutral-800">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <div class="inline-block mb-6 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">About Us</span>
-            </div>
-            <h2 class="text-5xl md:text-6xl font-black text-white mb-8">
-                Nature Healing<br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Community</span>
+{{-- CONTACT --}}
+<section id="contact" class="scroll-mt-24 py-24 section-divider">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm font-semibold mb-4">
+                CONTACT
+            </span>
+
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
+                Hubungi dan Ikuti
+                <span class="text-emerald-400">Triplay</span>
             </h2>
-            <p class="text-xl text-neutral-300 leading-relaxed mb-12">
-                Triplay Healing is a premium community of nature enthusiasts focused on authentic healing experiences.
-                We believe nature's beauty can heal the soul and reignite the spirit of life.
-            </p>
 
-            <div class="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-                <div class="p-6 bg-neutral-800/50 border border-white/5 rounded-2xl">
-                    <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-teal-600 mb-2">100+</div>
-                    <div class="text-sm text-neutral-400 font-medium">Destinations</div>
-                </div>
-                <div class="p-6 bg-neutral-800/50 border border-white/5 rounded-2xl">
-                    <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-teal-600 mb-2">500+</div>
-                    <div class="text-sm text-neutral-400 font-medium">Travelers</div>
-                </div>
-                <div class="p-6 bg-neutral-800/50 border border-white/5 rounded-2xl">
-                    <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-teal-600 mb-2">5.0</div>
-                    <div class="text-sm text-neutral-400 font-medium">Rating</div>
-                </div>
-            </div>
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Informasi kontak, sosial media, layanan, dan partner pembayaran Triplay
+                dalam satu tempat agar pengguna lebih mudah mendapatkan bantuan.
+            </p>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-32 bg-neutral-800">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <div class="inline-block mb-6 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">Get in Touch</span>
-            </div>
-            <h2 class="text-5xl md:text-6xl font-black text-white mb-6">Let's Connect</h2>
-            <p class="text-xl text-neutral-300 mb-12">
-                Ready to start your healing journey? Contact us for reservations or inquiries
-            </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14">
 
-            <div class="grid md:grid-cols-2 gap-6">
-                <a href="mailto:triplayhealing@gmail.com" class="group p-6 bg-neutral-700/50 hover:bg-neutral-700 border border-white/5 rounded-2xl transition-all">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div class="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition">
-                            <i class="fas fa-envelope text-emerald-400 text-xl"></i>
+            {{-- BRAND + PAYMENT --}}
+            <div class="space-y-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl">
+                            T
                         </div>
-                        <div class="text-left">
-                            <div class="text-xs text-neutral-400 mb-1">Email</div>
-                            <div class="font-bold text-white break-all sm:break-words">triplayhealing@gmail.com</div>
+
+                        <div>
+                            <h3 class="text-3xl font-black text-white leading-none">
+                                Triplay.
+                            </h3>
+                            <p class="text-neutral-500 text-sm mt-1">
+                                Healing Trip
+                            </p>
                         </div>
                     </div>
+
+                    <p class="text-neutral-400 text-sm leading-relaxed">
+                        Platform booking trip dan layanan pendukung perjalanan seperti
+                        ojek, sewa perlengkapan, guide, dan dokumentasi.
+                    </p>
+                </div>
+
+                <a href="https://wa.me/6281234567890"
+                   target="_blank"
+                   class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg hover:shadow-emerald-500/30">
+                    Hubungi Tim Triplay
                 </a>
 
-                <a href="tel:+6281234567890" class="group p-6 bg-neutral-700/50 hover:bg-neutral-700 border border-white/5 rounded-2xl transition-all">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div class="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition">
-                            <i class="fas fa-phone text-emerald-400 text-xl"></i>
+                <div>
+                    <h4 class="text-white font-black text-lg mb-4">
+                        Partner Pembayaran
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            BCA
                         </div>
-                        <div class="text-left">
-                            <div class="text-xs text-neutral-400 mb-1">Phone</div>
-                            <div class="font-bold text-white break-words">+62 878 6314 1199</div>
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            BRI
+                        </div>
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            BNI
+                        </div>
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            Mandiri
+                        </div>
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            GoPay
+                        </div>
+                        <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-center text-white text-xs font-bold">
+                            QRIS
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-        </div>
-    </section>
 
+            {{-- TENTANG --}}
+            <div>
+                <h4 class="text-white font-black text-xl mb-5">
+                    Tentang Triplay
+                </h4>
+
+                <ul class="space-y-4 text-neutral-400 text-sm">
+                    <li>
+                        <a href="#home" class="hover:text-emerald-400 transition">
+                            Beranda
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#about" class="hover:text-emerald-400 transition">
+                            Tentang Kami
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#services" class="hover:text-emerald-400 transition">
+                            Layanan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="hover:text-emerald-400 transition">
+                            Hubungi Kami
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-emerald-400 transition">
+                            Cara Booking
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-emerald-400 transition">
+                            Pusat Bantuan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-emerald-400 transition">
+                            Syarat & Ketentuan
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- LAYANAN --}}
+            <div>
+                <h4 class="text-white font-black text-xl mb-5">
+                    Layanan
+                </h4>
+
+                <ul class="space-y-4 text-neutral-400 text-sm">
+                    <li>
+                        <a href="{{ route('explore') }}" class="hover:text-emerald-400 transition">
+                            Adventure
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="hover:text-emerald-400 transition">
+                            Semua Services
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="hover:text-emerald-400 transition">
+                            Ojek
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="hover:text-emerald-400 transition">
+                            Sewa Perlengkapan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="hover:text-emerald-400 transition">
+                            Guide
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="hover:text-emerald-400 transition">
+                            Dokumentasi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- SOSIAL + KONTAK --}}
+            <div>
+                <h4 class="text-white font-black text-xl mb-5">
+                    Terhubung dengan Kami
+                </h4>
+
+                <ul class="space-y-4 text-neutral-400 text-sm mb-8">
+                    <li>
+                        <a href="https://wa.me/6281234567890"
+                           target="_blank"
+                           class="flex items-center gap-3 hover:text-emerald-400 transition">
+                            <span class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white text-xs font-bold">
+                                WA
+                            </span>
+                            <span>+62 812-3456-7890</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="mailto:hello@triplay.com"
+                           class="flex items-center gap-3 hover:text-emerald-400 transition">
+                            <span class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white text-xs font-bold">
+                                @
+                            </span>
+                            <span>hello@triplay.com</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#"
+                           target="_blank"
+                           class="flex items-center gap-3 hover:text-emerald-400 transition">
+                            <span class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white text-xs font-bold">
+                                IG
+                            </span>
+                            <span>@triplay.id</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#"
+                           target="_blank"
+                           class="flex items-center gap-3 hover:text-emerald-400 transition">
+                            <span class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white text-xs font-bold">
+                                FB
+                            </span>
+                            <span>Triplay Indonesia</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <h4 class="text-white font-black text-lg mb-4">
+                    Follow kami
+                </h4>
+
+                <div class="flex flex-wrap gap-3">
+                    <a href="#"
+                       class="w-11 h-11 rounded-full bg-white/5 hover:bg-emerald-600 border border-white/10 text-white flex items-center justify-center transition">
+                        f
+                    </a>
+
+                    <a href="#"
+                       class="w-11 h-11 rounded-full bg-white/5 hover:bg-emerald-600 border border-white/10 text-white flex items-center justify-center transition">
+                        ig
+                    </a>
+
+                    <a href="#"
+                       class="w-11 h-11 rounded-full bg-white/5 hover:bg-emerald-600 border border-white/10 text-white flex items-center justify-center transition">
+                        x
+                    </a>
+
+                    <a href="#"
+                       class="w-11 h-11 rounded-full bg-white/5 hover:bg-emerald-600 border border-white/10 text-white flex items-center justify-center transition">
+                        t
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 @endsection
-
-

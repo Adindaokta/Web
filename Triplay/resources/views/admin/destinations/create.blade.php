@@ -1,56 +1,128 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="min-h-screen bg-neutral-900 py-12 px-6 text-white">
-    <div class="max-w-4xl mx-auto">
+<div class="p-6 space-y-6">
 
-        <h2 class="text-4xl font-black mb-10">
-            Tambah
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                Destinasi
-            </span>
-        </h2>
-
-        <div class="bg-neutral-800/70 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl p-10">
-
-            <form action="{{ route('admin.destinations.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-
-                <div class="mb-6">
-                    <label class="block text-sm uppercase text-neutral-400 font-bold mb-2">Nama Destinasi</label>
-                    <input type="text" name="title"
-                        class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 focus:ring-emerald-500 outline-none"
-                        required>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <select name="category"
-                        class="bg-neutral-900 border border-white/10 rounded-xl px-4 py-3">
-                        <option value="hiking">Hiking</option>
-                        <option value="trekking">Trekking</option>
-                        <option value="camping">Camping</option>
-                    </select>
-
-                    <input type="number" name="price"
-                        class="bg-neutral-900 border border-white/10 rounded-xl px-4 py-3"
-                        placeholder="Harga" required>
-                </div>
-
-                <textarea name="description" rows="5"
-                    class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 mb-6"
-                    placeholder="Deskripsi" required></textarea>
-
-                <input type="file" name="image"
-                    class="w-full bg-neutral-900 border border-dashed border-white/20 rounded-xl px-4 py-3 mb-8" required>
-
-                <div class="flex justify-end">
-                    <button class="px-10 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold shadow-lg transition">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-
-        </div>
+    <div>
+        <h1 class="text-3xl font-black text-white">Tambah Destinasi</h1>
+        <p class="text-gray-400">Isi data destinasi secara terstruktur agar tampil rapi di website.</p>
     </div>
+
+    @if ($errors->any())
+        <div class="rounded-xl bg-red-500/10 border border-red-500/30 p-4 text-red-300">
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('admin.destinations.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        @csrf
+
+        <div class="grid md:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Nama Destinasi</label>
+                <input type="text" name="title" value="{{ old('title') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: Gunung Bromo">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Kategori</label>
+                <select name="category" class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3">
+                    <option value="">Pilih kategori</option>
+                    <option value="hiking">Hiking</option>
+                    <option value="trekking">Trekking</option>
+                    <option value="camping">Camping</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Harga Paket</label>
+                <input type="number" name="price" value="{{ old('price') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: 150000">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Tingkat Kesulitan</label>
+                <select name="difficulty_level" class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3">
+                    <option value="easy">Easy / Pemula</option>
+                    <option value="medium">Medium / Menengah</option>
+                    <option value="hard">Hard / Sulit</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Lokasi</label>
+                <input type="text" name="location" value="{{ old('location') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: Probolinggo, Jawa Timur">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Meeting Point</label>
+                <input type="text" name="meeting_point" value="{{ old('meeting_point') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: Terminal Probolinggo">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Estimasi Durasi</label>
+                <input type="text" name="estimated_duration" value="{{ old('estimated_duration') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: 4-6 jam">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-300 mb-2">Ketinggian MDPL</label>
+                <input type="number" name="altitude_mdpl" value="{{ old('altitude_mdpl') }}"
+                       class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                       placeholder="Contoh: 2329">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-gray-300 mb-2">Deskripsi Singkat Tempat</label>
+            <textarea name="description" rows="4"
+                      class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                      placeholder="Ceritakan gambaran singkat destinasi">{{ old('description') }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-gray-300 mb-2">Fasilitas</label>
+            <textarea name="facilities" rows="3"
+                      class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                      placeholder="Contoh: Tiket masuk, guide, briefing, dokumentasi">{{ old('facilities') }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-gray-300 mb-2">Catatan Keselamatan</label>
+            <textarea name="safety_notes" rows="3"
+                      class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3"
+                      placeholder="Contoh: Gunakan sepatu outdoor, bawa jas hujan, ikuti arahan guide">{{ old('safety_notes') }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-gray-300 mb-2">Foto Destinasi</label>
+            <input type="file" name="image" accept="image/*"
+                   class="w-full rounded-xl bg-gray-950 border border-gray-700 text-white px-4 py-3">
+        </div>
+
+        <div class="flex gap-3">
+            <button type="submit"
+                    class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+                Simpan Destinasi
+            </button>
+
+            <a href="{{ route('admin.destinations') }}"
+               class="px-6 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold">
+                Batal
+            </a>
+        </div>
+    </form>
+
 </div>
 @endsection
